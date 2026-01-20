@@ -7,9 +7,6 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20260118111549 extends AbstractMigration
 {
     public function getDescription(): string
@@ -19,19 +16,52 @@ final class Version20260118111549 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE author_book ADD CONSTRAINT FK_2F0A2BEEF675F31B FOREIGN KEY (author_id) REFERENCES author (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE author_book ADD CONSTRAINT FK_2F0A2BEE16A2B381 FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE book ADD CONSTRAINT FK_CBE5A3316995AC4C FOREIGN KEY (editor_id) REFERENCES editor (id)');
-        $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C16A2B381 FOREIGN KEY (book_id) REFERENCES book (id)');
+        $this->addSql('CREATE TABLE author (
+            id INT NOT NULL AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            date_of_birth DATETIME NOT NULL,
+            date_of_death DATETIME DEFAULT NULL,
+            nationality VARCHAR(255) DEFAULT NULL,
+            PRIMARY KEY(id)
+        ) ENGINE=InnoDB');
+
+        $this->addSql('CREATE TABLE author_book (
+            author_id INT NOT NULL,
+            book_id INT NOT NULL,
+            PRIMARY KEY(author_id, book_id),
+            INDEX IDX_AUTHOR_BOOK_AUTHOR (author_id),
+            INDEX IDX_AUTHOR_BOOK_BOOK (book_id)
+        ) ENGINE=InnoDB');
+
+        $this->addSql('CREATE TABLE comment (
+            id INT NOT NULL AUTO_INCREMENT,
+            book_id INT NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            created_at DATETIME NOT NULL,
+            published_at DATETIME DEFAULT NULL,
+            status VARCHAR(255) NOT NULL,
+            content LONGTEXT NOT NULL,
+            PRIMARY KEY(id),
+            INDEX IDX_COMMENT_BOOK (book_id)
+        ) ENGINE=InnoDB');
+
+        $this->addSql('ALTER TABLE author_book 
+            ADD CONSTRAINT FK_AUTHOR_BOOK_AUTHOR FOREIGN KEY (author_id) REFERENCES author (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE author_book 
+            ADD CONSTRAINT FK_AUTHOR_BOOK_BOOK FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE comment 
+            ADD CONSTRAINT FK_COMMENT_BOOK FOREIGN KEY (book_id) REFERENCES book (id)');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE author_book DROP FOREIGN KEY FK_2F0A2BEEF675F31B');
-        $this->addSql('ALTER TABLE author_book DROP FOREIGN KEY FK_2F0A2BEE16A2B381');
-        $this->addSql('ALTER TABLE book DROP FOREIGN KEY FK_CBE5A3316995AC4C');
-        $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526C16A2B381');
+        $this->addSql('ALTER TABLE author_book DROP FOREIGN KEY FK_AUTHOR_BOOK_AUTHOR');
+        $this->addSql('ALTER TABLE author_book DROP FOREIGN KEY FK_AUTHOR_BOOK_BOOK');
+        $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_COMMENT_BOOK');
+
+        $this->addSql('DROP TABLE IF EXISTS author_book');
+        $this->addSql('DROP TABLE IF EXISTS comment');
+        $this->addSql('DROP TABLE IF EXISTS author');
     }
 }

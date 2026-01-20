@@ -1,53 +1,72 @@
 # 📚 Application de gestion de catalogue de livres
 
-C'est une application web développée avec **Symfony 7**, **MySQL**, **Bootstrap 5** et **Pagerfanta**.  
-Elle permet de gérer un catalogue de livres, visualiser l’état de chaque livre, parcourir la liste avec pagination, et afficher les détails.
+Application web développée avec **Symfony 7**, **MySQL**, **Bootstrap 5** et **Pagerfanta**.  
+Elle permet de gérer un catalogue de livres, de consulter leur état, leurs auteurs, éditeurs et commentaires, avec une navigation fluide et paginée.
 
 ---
 
-## 🧩 Fonctionnalités
+## ✨ Fonctionnalités
 
-L’application permet actuellement :
+### 📖 Catalogue de livres
+- Affichage de la **liste des livres**
+- Accès au **détail d’un livre**
+- Association avec :
+  - auteurs
+  - éditeurs
+  - commentaires
 
-- Créer et maintenir un **schéma de base de données** pour les entités (Books, Authors, Editors, Comments)  
-- **Récupérer et afficher des données** avec Twig  
-- **Valider les données** côté serveur grâce aux contraintes de validation Symfony  
-- **Sauvegarder des données en base** (Doctrine ORM)  
-- Parcourir les livres avec **pagination (Pagerfanta)**  
-- Afficher la liste des livres, leurs auteurs, éditeur et commentaires
+### 🧠 Gestion des données
+- Schéma de base de données relationnelle :
+  - Books
+  - Authors
+  - Editors
+  - Comments
+- Relations Doctrine (OneToMany / ManyToOne)
+- Validation des données côté serveur (Validator Symfony)
+- Persistance via **Doctrine ORM**
 
-> ⚠️ Le projet n’est pas encore terminé. Il manque l’implémentation de :  
-> - Les **utilisateurs**  
-> - L’**authentification**  
-> - La gestion des **autorisations / rôles**
+### 📄 Navigation & affichage
+- Templates dynamiques avec **Twig**
+- Pagination performante avec **Pagerfanta**
+- Interface responsive grâce à **Bootstrap 5**
 
 ---
 
-## 🚀 Technologies
+## 🧩 Architecture & bonnes pratiques
 
-- **Symfony 7** – Framework PHP  
-- **Doctrine ORM** – Gestion de la base de données  
-- **MySQL** – Base de données relationnelle  
-- **Twig** – Moteur de templates  
-- **Bootstrap 5** – UI / styles front  
-- **Pagerfanta** – Pagination backend + composants Twig
+- Architecture MVC Symfony
+- Séparation claire des responsabilités
+- Utilisation des repositories pour la logique métier
+- Routes organisées et nommées
+- Code structuré et lisible
+
+---
+
+## 🚀 Technologies utilisées
+
+- **Symfony 7**
+- **PHP 8.1+**
+- **Doctrine ORM**
+- **MySQL**
+- **Twig**
+- **Bootstrap 5**
+- **Pagerfanta**
 
 ---
 
 ## 📦 Prérequis
 
-Avant d’installer le projet, assurez-vous d’avoir :
-
-- PHP 8.1+  
-- Composer  
-- MySQL  
-- Un serveur web (Apache, Nginx, WAMP, etc.)
+- PHP 8.1 ou supérieur
+- Composer
+- MySQL
+- Serveur web (Apache, Nginx, WAMP, etc.)
+- Git
 
 ---
 
 ## 🛠️ Installation
 
-1. Clone le dépôt :
+1. Cloner le dépôt :
    ```bash
    git clone https://github.com/GabrielG-prog/projet-symfony-biblioth-que.git
-   cd "votre dossier"
+   cd projet-symfony-biblioth-que

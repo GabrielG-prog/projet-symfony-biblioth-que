@@ -32,10 +32,12 @@ class Book
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column]
     private ?\DateTimeImmutable $editedAt = null;
 
     #[Assert\Length(min: 20)]
+    #[Assert\NotBlank()]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $plot = null;
 
@@ -53,8 +55,12 @@ class Book
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'book', orphanRemoval: true)]
     private Collection $comments;
 
-    #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'books', cascade: ['persist'])]
     private Collection $authors;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $createdBy = null;
 
     public function __construct()
     {
@@ -216,6 +222,18 @@ class Book
         if ($this->authors->removeElement($author)) {
             $author->removeBook($this);
         }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }
